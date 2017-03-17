@@ -1,1 +1,22 @@
-<div><input type="text"><button>Find</button></div>
+<div class="search-wrapper container">
+	<div class="row">
+		<form class="form-inline col-10">
+			<div class="form-group">
+				<input
+					type="search"
+					class="form-control"
+					placeholder="type name or date"
+					#searchValue>
+				<button
+					class="btn btn-outline-primary"
+					(click)="findCourse(searchValue)" type="button">
+					Find
+				</button>
+			</div>
+		</form>
+		<div class="col-2">
+			<!--will be maybe separate component-->
+			<button class="btn btn-info btn-block">Add course</button>
+		</div>
+	</div>
+</div>

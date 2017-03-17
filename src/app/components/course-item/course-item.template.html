@@ -1,1 +1,11 @@
-<div class="course-item">Here goes course item</div>
+
+<div class="row course-item">
+	<div class="col-10">
+		<p>{{course.title}} {{course.id}} {{course.duration}}</p>
+		<p>{{course.description}}</p>
+	</div>
+	<div class="col-2">
+		<button class="btn btn-primary btn-block">Edit course</button>
+		<button class="btn btn-primary btn-block" (click)="deleteCourseAction(course)">Remove</button>
+	</div>
+</div>
