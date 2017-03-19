@@ -6,10 +6,10 @@
 					type="search"
 					class="form-control"
 					placeholder="type name or date"
-					#searchValue>
+					ngModel name="searchValue" #searchValue="ngModel">
 				<button
 					class="btn btn-outline-primary"
-					(click)="findCourse(searchValue)" type="button">
+					(click)="findCourse(searchValue.value)" type="button">
 					Find
 				</button>
 			</div>

@@ -1,5 +1,7 @@
 // angular modules
 import { NgModule } from '@angular/core';
+import { WindowRefService } from '../../services/window.service';
+import { FormsModule } from '@angular/forms';
 
 // routes
 import { routes } from './login.routes';
@@ -12,9 +14,10 @@ import { LoginComponent } from './login.component';
 		LoginComponent
 	],
 	imports: [
-		routes
+		routes,
+		FormsModule
 	],
-	providers: []
+	providers: [WindowRefService]
 })
 export class LoginModule {
 	constructor() {

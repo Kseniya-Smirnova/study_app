@@ -6,21 +6,21 @@ import { CourseInstance } from '../../core/entities/courseInstance';
 	templateUrl: 'course-item.template.html',
 	styles: [require('./course-item.component.scss')]
 })
-export class CourseItem {
-	@Input() course: CourseInstance;
-	@Output() deleteCourse: EventEmitter<CourseInstance>;
+export class CourseItemComponent {
+	@Input() public course: CourseInstance;
+	@Output() private deleteCourse: EventEmitter<CourseInstance>;
 
 	constructor() {
 		this.deleteCourse = new EventEmitter();
 	}
 
-	deleteCourseAction(course: CourseInstance): void {
+	public deleteCourseAction(course: CourseInstance): void {
 		this.deleteCourse.emit(course);
 	}
 }
 
-//Also we can realize output and input other way
-//and this way I like more, so I put it here in comments
+// Also we can realize output and input other way
+// and this way I like more, so I put it here in comments
 
 // import { Component, EventEmitter } from '@angular/core';
 // import { CourseInstance } from '../../core/entities/courseInstance';

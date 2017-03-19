@@ -6,7 +6,8 @@
 			</div>
 			<div class="col-3"><h1>Our courses</h1></div>
 			<div class="col-6"><breadcrumbs></breadcrumbs></div>
-			<div class="col-2">You logged in <button class="btn btn-danger">Log off</button></div>
+			<div class="col-2" *ngIf="loggedUser" (click)="login()">You logged in <button class="btn btn-danger">Log off</button></div>
+			<div class="col-2" *ngIf="!loggedUser" (click)="logout()"><button class="btn btn-danger">Log in</button></div>
 		</div>
 	</div>
 </header>

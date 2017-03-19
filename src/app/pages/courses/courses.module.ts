@@ -1,25 +1,28 @@
 // angular modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+import { WindowRefService } from '../../services/window.service';
 
 // routes
 import { routes } from './courses.routes';
 
 // custom components
 import { CoursesComponent } from './courses.component';
-import { CourseItem } from '../../components/course-item/course-item.component';
+import { CourseItemComponent } from '../../components/course-item/course-item.component';
 import { SearchComponent } from '../../components/search/search.component';
 
 @NgModule({
 	declarations: [
 		CoursesComponent,
-		CourseItem,
+		CourseItemComponent,
 		SearchComponent
 	],
 	imports: [
-		[routes, BrowserModule]
+		[routes, BrowserModule, FormsModule]
 	],
-	providers: []
+	providers: [WindowRefService]
 })
 export class CoursesModule {
 	constructor() {
