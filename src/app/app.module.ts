@@ -31,10 +31,6 @@ import { CoursesModule } from './pages/courses';
 import { CourseModule } from './pages/course';
 import { LoginModule } from './pages/login';
 
-
-
-// Application wide providers
-
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
@@ -82,5 +78,4 @@ export class AppModule {
 		store.disposeOldHosts();
 		delete store.disposeOldHosts;
 	}
-
 }
