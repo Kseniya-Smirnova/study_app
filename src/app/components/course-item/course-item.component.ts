@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { CourseInstance } from '../../core/entities/courseInstance';
 
 @Component({
 	selector: 'course-item',
 	templateUrl: 'course-item.template.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	styles: [require('./course-item.component.scss')]
 })
 export class CourseItemComponent {

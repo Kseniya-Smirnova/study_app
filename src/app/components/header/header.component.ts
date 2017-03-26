@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
@@ -6,20 +6,30 @@ import { AuthorizationService } from '../../services/authorization.service';
 	templateUrl: 'header.component.html',
 	styles: [require('./header.component.scss')],
 	providers: [AuthorizationService],
-	encapsulation: ViewEncapsulation.None
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-	public loggedUser: boolean;
-	constructor(private authorizationService: AuthorizationService) {
-		this.loggedUser = this.authorizationService.isAuthenticated();
+	public isLogged: boolean;
+
+	constructor(private authorizationService: AuthorizationService, private cd: ChangeDetectorRef) {
+
 	}
 
 	public login(): void {
+		this.authorizationService.login({});
 		console.log('Here will be function with redirect to login page');
 	}
 
 	public logout(): void {
-		console.log('Logout function');
 		this.authorizationService.logout();
+	}
+
+	private ngOnInit() {
+		this.authorizationService.subscribeForLogin().subscribe(
+			(value) => {
+				this.isLogged = value;
+				this.cd.markForCheck();
+			}
+		);
 	}
 }
