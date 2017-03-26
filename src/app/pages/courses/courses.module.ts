@@ -12,6 +12,7 @@ import { routes } from './courses.routes';
 import { CoursesComponent } from './courses.component';
 import { CourseItemComponent } from '../../components/course-item/course-item.component';
 import { SearchComponent } from '../../components/search/search.component';
+import { LoaderBlockModule } from '../../components/loader-block';
 
 @NgModule({
 	declarations: [
@@ -20,7 +21,8 @@ import { SearchComponent } from '../../components/search/search.component';
 		SearchComponent
 	],
 	imports: [
-		[routes, BrowserModule, FormsModule]
+		[routes, BrowserModule, FormsModule,
+			LoaderBlockModule]
 	],
 	providers: [WindowRefService]
 })

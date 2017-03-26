@@ -4,10 +4,14 @@
 			<div class="col-1">
 				<img src="../../../assets/img/angular-logo.png" alt="logo"/>
 			</div>
-			<div class="col-3"><h1>Our courses</h1></div>
-			<div class="col-6"><breadcrumbs></breadcrumbs></div>
-			<div class="col-2" *ngIf="loggedUser" (click)="login()">You logged in <button class="btn btn-danger">Log off</button></div>
-			<div class="col-2" *ngIf="!loggedUser" (click)="logout()"><button class="btn btn-danger">Log in</button></div>
+			<div class="col-3"><h1>{{isLogged}}</h1></div>
+			<div class="col-6">
+				<div *ngIf="!isLogged">
+					<breadcrumbs></breadcrumbs>
+				</div>
+			</div>
+			<div class="col-2" *ngIf="isLogged" (click)="logout()">You logged in <button class="btn btn-danger">Log out</button></div>
+			<div class="col-2" *ngIf="!isLogged" (click)="login()"><button class="btn btn-danger">Log in</button></div>
 		</div>
 	</div>
 </header>

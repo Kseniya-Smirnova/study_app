@@ -21,6 +21,7 @@ import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { NoContentComponent } from './pages/no-content';
+import { ZoneService } from './services/zone.service';
 
 // Components
 import { FooterModule } from './components/footer';
@@ -51,7 +52,8 @@ import { LoginModule } from './pages/login';
 		LoginModule
 	],
 	providers: [ // expose our Services and Providers into Angular's dependency injection
-		ENV_PROVIDERS
+		ENV_PROVIDERS,
+		ZoneService
 	]
 })
 export class AppModule {
