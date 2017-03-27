@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 export class LoaderBlockService {
 	public showBlock: BehaviorSubject<boolean>;
 	constructor() {
-		this.showBlock = <BehaviorSubject<boolean>> new BehaviorSubject(true);
+		this.showBlock = <BehaviorSubject<boolean>> new BehaviorSubject(false);
 	}
 
 	public subscribeToShowBlock(): Observable<boolean> {
@@ -16,11 +16,9 @@ export class LoaderBlockService {
 
 	public show(): void {
 		this.showBlock.next(true);
-		console.log(this.showBlock);
 	}
 
 	public hide(): void {
 		this.showBlock.next(false);
-		console.log(this.showBlock);
 	}
 }

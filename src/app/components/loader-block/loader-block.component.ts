@@ -5,7 +5,6 @@ import { LoaderBlockService } from './loader-block.service';
 @Component({
 	selector: 'loader-block',
 	templateUrl: 'loader-block.component.html',
-	providers: [LoaderBlockService],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	styles: [require('./loader-block.component.scss')]
 })

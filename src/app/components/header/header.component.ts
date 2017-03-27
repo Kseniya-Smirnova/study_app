@@ -5,7 +5,6 @@ import { AuthorizationService } from '../../services/authorization.service';
 	selector: 'main-header',
 	templateUrl: 'header.component.html',
 	styles: [require('./header.component.scss')],
-	providers: [AuthorizationService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {

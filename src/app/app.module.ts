@@ -22,10 +22,13 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { NoContentComponent } from './pages/no-content';
 import { ZoneService } from './services/zone.service';
+import { AuthorizationService } from './services/authorization.service';
+import { LoaderBlockService } from './components/loader-block/loader-block.service';
 
 // Components
 import { FooterModule } from './components/footer';
 import { HeaderModule } from './components/header';
+import { LoaderBlockModule } from './components/loader-block';
 
 // Pages
 import { CoursesModule } from './pages/courses';
@@ -49,11 +52,14 @@ import { LoginModule } from './pages/login';
 		FooterModule,
 		CoursesModule,
 		CourseModule,
-		LoginModule
+		LoginModule,
+		LoaderBlockModule
 	],
 	providers: [ // expose our Services and Providers into Angular's dependency injection
 		ENV_PROVIDERS,
-		ZoneService
+		ZoneService,
+		AuthorizationService,
+		LoaderBlockService
 	]
 })
 export class AppModule {

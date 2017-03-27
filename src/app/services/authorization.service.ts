@@ -8,7 +8,7 @@ export class AuthorizationService {
 
 	constructor() {
 		// here will be checked token and the passed false or true
-		this.isLogged = <BehaviorSubject<boolean>> new BehaviorSubject(true);
+		this.isLogged = <BehaviorSubject<boolean>> new BehaviorSubject(false);
 	}
 
 	public subscribeForLogin(): Observable<boolean> {
