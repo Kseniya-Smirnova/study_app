@@ -17,13 +17,19 @@ export class CoursesComponent implements OnInit, DoCheck, OnChanges {
 	private courses: CourseInstance[];
 	private window: Window;
 
-	constructor(private courseServices: CoursesService, window: WindowRefService, private loaderBlockService:LoaderBlockService, private cd: ChangeDetectorRef) {
+	constructor(
+		private courseServices: CoursesService,
+		window: WindowRefService,
+		private loaderBlockService: LoaderBlockService,
+		private cd: ChangeDetectorRef) {
 		this.window = window.nativeWindow;
 	}
 
 	public ngOnInit(): void {
-		this.getCourses();
-		this.loaderBlockService.hide();
+		this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
+			this.courses = courses;
+			this.cd.markForCheck();
+		});
 	}
 
 	public ngOnChanges() {
@@ -34,7 +40,7 @@ export class CoursesComponent implements OnInit, DoCheck, OnChanges {
 	}
 
 	public getCourses(): void {
-		this.courses = this.courseServices.getCourses();
+		this.courseServices.getCourses();
 	}
 
 	public deleteCourseComplete(course: CourseInstance): void {

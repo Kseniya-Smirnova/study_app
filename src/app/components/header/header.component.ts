@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { AuthorizationService } from '../../services/authorization.service';
 	providers: [AuthorizationService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 	public isLogged: boolean;
 
 	constructor(private authorizationService: AuthorizationService, private cd: ChangeDetectorRef) {
@@ -24,7 +24,7 @@ export class HeaderComponent {
 		this.authorizationService.logout();
 	}
 
-	private ngOnInit() {
+	public ngOnInit() {
 		this.authorizationService.subscribeForLogin().subscribe(
 			(value) => {
 				this.isLogged = value;

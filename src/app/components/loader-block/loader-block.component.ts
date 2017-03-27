@@ -20,7 +20,7 @@ export class LoaderBlockComponent implements OnInit {
 			(value) => {
 				// console.log('tested', value);
 				this.isShown = value;
-				this.cd.markForCheck()
+				this.cd.markForCheck();
 			}
 		);
 		// this.loaderBlockService.hide();
