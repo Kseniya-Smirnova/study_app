@@ -7,9 +7,7 @@ import { LoaderBlockComponent } from './loader-block.component';
 	declarations: [LoaderBlockComponent],
 	imports: [CommonModule],
 	exports: [LoaderBlockComponent],
-	providers: [
-		LoaderBlockService
-	]
+	providers: []
 })
 export class LoaderBlockModule {
 	constructor() {

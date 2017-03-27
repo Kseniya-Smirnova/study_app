@@ -45,10 +45,13 @@ export class CoursesComponent implements OnInit, DoCheck, OnChanges {
 
 	public deleteCourseComplete(course: CourseInstance): void {
 		this.loaderBlockService.show();
-		let confirm = this.window.confirm('Do you really want to delete course?');
+		setTimeout(() => {
+			let confirm = this.window.confirm('Do you really want to delete course?');
 
-		if (confirm) {
-			this.courseServices.removeCourse(course);
-		}
+			if (confirm) {
+				this.courseServices.removeCourse(course);
+			}
+			this.loaderBlockService.hide();
+		}, 100);
 	}
 }
