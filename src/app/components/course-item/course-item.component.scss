@@ -6,5 +6,19 @@
 	background-color: $bg-common;
 	border: 1px solid $bg-border;
 	border-radius: 4px;
+}
 
+.course-attributes {
+	span {
+		display: inline-block;
+
+		&:first-child {
+			border-right: 2px solid $bg-border;
+			padding-right: 6px;
+		}
+	}
+}
+
+.course-date {
+	float: right;
 }

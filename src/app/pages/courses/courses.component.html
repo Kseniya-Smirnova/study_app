@@ -1,9 +1,10 @@
 <search></search>
 
-<div>
-	<course-item
-		*ngFor="let course of courses"
+<div class="container">
+	<course-item *ngFor="let course of courses | orderBy: 'createdDate'"
 		[course]="course"
 		(deleteCourse)="deleteCourseComplete($event)">
 	</course-item>
+
+	<div *ngIf="!courses.length" class="no-courses">No data. Feel free to add new course.</div>
 </div>

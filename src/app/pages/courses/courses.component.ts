@@ -11,7 +11,8 @@ import { LoaderBlockService } from '../../components/loader-block/loader-block.s
 	selector: 'courses',
 	template: require('./courses.component.html'),
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [CoursesService]
+	providers: [CoursesService],
+	styles: [require('./courses.component.scss')]
 })
 export class CoursesComponent implements OnInit, DoCheck, OnChanges {
 	private courses: CourseInstance[];
@@ -27,6 +28,7 @@ export class CoursesComponent implements OnInit, DoCheck, OnChanges {
 
 	public ngOnInit(): void {
 		this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
+			console.log(this.courses);
 			this.courses = courses;
 			this.cd.markForCheck();
 		});

@@ -9,6 +9,7 @@ export class CourseInstance implements CourseItemInterface {
 		public date: Date,
 		public duration: number,
 		public description: string,
-		public lecture: string) {
+		public lecture: string,
+		public createdDate: Date) {
 	}
 }
