@@ -1,8 +1,13 @@
-
-<div class="row course-item">
+<div class="row course-item" [dateHighlight]="course.date">
 	<div class="col-10">
-		<p>{{course.title}} {{course.id}} {{course.duration}}</p>
+		<p class="course-attributes">
+			<span>{{course.id}}. {{course.title | uppercase}}</span>
+			<span>{{course.duration | durationLength}}</span>
+			<span  class="course-date">{{course.date | date:'medium'}}</span>
+		</p>
 		<p>{{course.description}}</p>
+		<p><strong>lecture:</strong> {{course.lecture}}</p>
+		<p>The course was created: {{course.createdDate | date:'shortDate'}}</p>
 	</div>
 	<div class="col-2">
 		<button class="btn btn-primary btn-block">Edit course</button>
