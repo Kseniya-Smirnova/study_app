@@ -7,6 +7,7 @@ export class CourseInstance implements CourseItemInterface {
 		public id: number,
 		public title: string,
 		public date: Date,
+		public topRated: boolean,
 		public duration: number,
 		public description: string,
 		public lecture: string,

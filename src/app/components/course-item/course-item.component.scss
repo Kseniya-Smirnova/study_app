@@ -22,3 +22,34 @@
 .course-date {
 	float: right;
 }
+
+.course-fresh {
+	border: 2px solid $bg-border-green;
+}
+
+.course-upcoming {
+	border: 2px solid $bg-border-blue;
+}
+.course-star {
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-bottom: 12px solid $bg-yellow;
+	position: relative;
+	margin: 0 0 3px 2px;
+}
+.course-star:after {
+	width: 0;
+	height: 0;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 12px solid $bg-yellow;
+	position: absolute;
+	content: "";
+	top: 4px;
+	left: -6px;
+}
+.course-rated {
+	background: $bg-background-dark;
+}

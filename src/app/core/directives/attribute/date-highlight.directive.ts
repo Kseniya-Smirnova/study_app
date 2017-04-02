@@ -1,19 +1,25 @@
-import {Directive, ElementRef, Renderer, Input, OnInit} from '@angular/core';
+import { Directive, ElementRef, Renderer, Input, OnInit } from '@angular/core';
 
 @Directive({
 	selector: '[dateHighlight]'
 })
 export class DateHighlightDirective  implements OnInit {
-	@Input('dateHighlight') dateHighlight: Date;
+	@Input('dateHighlight') private dateHighlight: Date;
+
 	private className: string;
+
 	constructor(private elementRef: ElementRef, private renderer: Renderer) {
-		// renderer.setElementClass(elementRef.nativeElement, 'class1', this.checkDate());
 	}
 
-	private checkDate():boolean {
-		let currentDate = new Date(),
-			createdDate = new Date(this.dateHighlight),
-			freshPointDate = new Date();
+	public ngOnInit() {
+		this.checkDate();
+		this.renderer.setElementClass(this.elementRef.nativeElement, this.className, this.checkDate());
+	}
+
+	private checkDate(): boolean {
+		let currentDate = new Date();
+		let createdDate = new Date(this.dateHighlight);
+		let freshPointDate = new Date();
 
 		freshPointDate.setDate(currentDate.getDate() - 14);
 
@@ -27,12 +33,4 @@ export class DateHighlightDirective  implements OnInit {
 			return false;
 		}
 	}
-
-	public ngOnInit() {
-		this.checkDate();
-		this.renderer.setElementClass(this.elementRef.nativeElement, this.className, this.checkDate());
-	}
-
 }
-
-

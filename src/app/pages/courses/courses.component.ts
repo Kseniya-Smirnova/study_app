@@ -1,11 +1,12 @@
 import {
-	Component, OnInit, DoCheck, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef
+	Component, OnInit, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 
 import { WindowRefService } from '../../services/window.service';
 import { CourseInstance } from '../../core/entities/courseInstance';
 import { CoursesService } from '../../services/courses.service';
 import { LoaderBlockService } from '../../components/loader-block/loader-block.service';
+import { FilterByPipe } from '../../core/pipes/filter-by.pipe';
 
 @Component({
 	selector: 'courses',
@@ -14,8 +15,9 @@ import { LoaderBlockService } from '../../components/loader-block/loader-block.s
 	providers: [CoursesService],
 	styles: [require('./courses.component.scss')]
 })
-export class CoursesComponent implements OnInit, DoCheck, OnChanges {
+export class CoursesComponent implements OnInit, OnChanges {
 	private courses: CourseInstance[];
+	private innerCourses: CourseInstance[];
 	private window: Window;
 
 	constructor(
@@ -27,8 +29,9 @@ export class CoursesComponent implements OnInit, DoCheck, OnChanges {
 	}
 
 	public ngOnInit(): void {
+		this.getCourses();
 		this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
-			console.log(this.courses);
+			this.innerCourses = courses;
 			this.courses = courses;
 			this.cd.markForCheck();
 		});
@@ -37,23 +40,24 @@ export class CoursesComponent implements OnInit, DoCheck, OnChanges {
 	public ngOnChanges() {
 		console.log('search component: onChanges');
 	}
-	public ngDoCheck() {
-		this.getCourses();
-	}
 
 	public getCourses(): void {
 		this.courseServices.getCourses();
 	}
 
-	public deleteCourseComplete(course: CourseInstance): void {
+	public deleteCourseComplete(course: CourseInstance): any {
 		this.loaderBlockService.show();
-		setTimeout(() => {
-			let confirm = this.window.confirm('Do you really want to delete course?');
+		let confirm = this.window.confirm('Do you really want to delete course?');
 
-			if (confirm) {
-				this.courseServices.removeCourse(course);
-			}
-			this.loaderBlockService.hide();
-		}, 100);
+		if (confirm) {
+			this.courseServices.removeCourse(course);
+			this.innerCourses = this.courses;
+		}
+		this.loaderBlockService.hide();
+	}
+
+	public sortCourses(value: string): void {
+		let filterByPipe = new FilterByPipe();
+		this.innerCourses = filterByPipe.transform(this.courses, value);
 	}
 }

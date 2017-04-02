@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'orderBy'})
+@Pipe({name: 'myOrderBy'})
 export class OrderByPipe implements PipeTransform {
-	transform(array: Array<any>, args: string): Array<any> {
+	public transform(array: Object[], args: string): Object[] {
 		array.sort((a: any, b: any) => {
 			if (new Date(a[args]) < new Date(b[args])) {
 				return -1;

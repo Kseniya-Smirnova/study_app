@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
 
 	public login(f: NgForm) {
 		this.loaderBlockService.show();
-		// lets imagine, login was successfully
 		this.authorizationService.login(f.value);
 	}
 }

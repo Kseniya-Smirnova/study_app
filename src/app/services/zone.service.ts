@@ -17,12 +17,10 @@ export class ZoneService implements OnDestroy {
 	}
 
 	private onZoneStable() {
-		console.timeEnd('unstable phase duration');
 		console.log('Now stable');
 	}
 
 	private onZoneUnstable() {
 		console.log('The application start unstable');
-		console.time('unstable phase duration');
 	}
 }
