@@ -34,6 +34,8 @@ import { LoaderBlockModule } from './components/loader-block';
 import { CoursesModule } from './pages/courses';
 import { CourseModule } from './pages/course';
 import { LoginModule } from './pages/login';
+import { CreateCourseModule } from './pages/create-course';
+import { PipeModule }    from './core/pipes/pipe.module';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -53,8 +55,12 @@ import { LoginModule } from './pages/login';
 		CoursesModule,
 		CourseModule,
 		LoginModule,
-		LoaderBlockModule
+		CreateCourseModule,
+		LoaderBlockModule,
+		PipeModule
+		// is it possible to import pipe globally other more transparent way?
 	],
+	exports: [PipeModule],
 	providers: [ // expose our Services and Providers into Angular's dependency injection
 		ENV_PROVIDERS,
 		ZoneService,

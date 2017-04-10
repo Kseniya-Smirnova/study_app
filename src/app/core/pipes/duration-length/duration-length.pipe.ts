@@ -7,6 +7,10 @@ export class DurationLengthPipe implements PipeTransform {
 		let mins;
 		let hours = value / 60;
 
+		if (!value) {
+			return '';
+		}
+
 		if (hours >= 1) {
 			hours = Math.floor(hours);
 			mins = value - 60 * hours;

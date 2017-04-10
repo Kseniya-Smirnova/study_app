@@ -1,6 +1,12 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import {
+	Component,
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	OnInit,
+	OnDestroy
+} from '@angular/core';
 import { LoaderBlockService } from './loader-block.service';
-// import { Observable } from 'rxjs/Observable';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
 	selector: 'loader-block',
@@ -8,8 +14,9 @@ import { LoaderBlockService } from './loader-block.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	styles: [require('./loader-block.component.scss')]
 })
-export class LoaderBlockComponent implements OnInit {
-	public isShown: any;
+export class LoaderBlockComponent implements OnInit, OnDestroy {
+	public isShown: boolean;
+	private subscriber: ISubscription;
 	constructor(private loaderBlockService: LoaderBlockService, private cd: ChangeDetectorRef) {
 		// loaderBlockService.hide();
 	}
@@ -23,5 +30,9 @@ export class LoaderBlockComponent implements OnInit {
 			}
 		);
 		// this.loaderBlockService.hide();
+	}
+
+	public ngOnDestroy() {
+		this.subscriber.unsubscribe();
 	}
 }

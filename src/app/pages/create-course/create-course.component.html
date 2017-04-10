@@ -1,0 +1,47 @@
+<div class="container create-course">
+	<form class="form-horizontal" (ngSubmit)="createCourse(f)" #f="ngForm">
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Title</label>
+			<div class="col-10">
+				<input class="form-control"
+					   type="text"
+					   placeholder="Enter course title"
+					   id="title"
+					   name="title"
+					   [(ngModel)]="course.title"
+					   #title="ngModel"
+					   required>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Description</label>
+			<div class="col-10">
+				<textarea class="form-control"
+						  placeholder="Enter your description"
+						  id="description"
+						  name="description"
+						  [(ngModel)]="course.description"
+						  #description="ngModel"
+						  required></textarea>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Date</label>
+			<div class="col-10">
+				<date-input (createDate)="addCourseDate($event)"></date-input>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Duration</label>
+			<div class="col-10">
+				<duration-input></duration-input>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<div class="col-10 offset-2">
+				<button class="btn btn-success" type="submit">Save</button>
+				<button class="btn btn-danger" type="button">Cancel</button>
+			</div>
+		</div>
+	</form>
+</div>

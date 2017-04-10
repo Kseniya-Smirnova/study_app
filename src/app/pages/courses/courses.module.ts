@@ -13,7 +13,7 @@ import { CoursesComponent } from './courses.component';
 import { CourseItemComponent } from '../../components/course-item/course-item.component';
 import { SearchComponent } from '../../components/search/search.component';
 import { DateHighlightDirective } from '../../core/directives/attribute/date-highlight.directive';
-import { DurationLengthPipe } from '../../core/pipes/duration-length.pipe';
+import { PipeModule } from '../../core/pipes/pipe.module';
 import { OrderByPipe } from '../../core/pipes/order-by.pipe';
 
 @NgModule({
@@ -22,11 +22,10 @@ import { OrderByPipe } from '../../core/pipes/order-by.pipe';
 		CourseItemComponent,
 		SearchComponent,
 		DateHighlightDirective,
-		DurationLengthPipe,
 		OrderByPipe
 	],
 	imports: [
-		[routes, BrowserModule, FormsModule]
+		[routes, BrowserModule, FormsModule, PipeModule]
 	],
 	providers: [WindowRefService]
 })

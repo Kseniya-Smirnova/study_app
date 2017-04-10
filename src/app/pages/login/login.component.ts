@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ISubscription } from 'rxjs/Subscription';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { WindowRefService } from '../../services/window.service';
@@ -9,7 +10,8 @@ import { LoaderBlockService } from '../../components/loader-block/loader-block.s
 	selector: 'login',
 	template: require('./login.component.html')
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+	private subscriber: ISubscription;
 	private isLogged: boolean;
 	private model: any = {};
 	private window: Window;
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	public ngOnInit() {
-		this.authorizationService.subscribeForLogin().subscribe(
+		this.subscriber = this.authorizationService.subscribeForLogin().subscribe(
 			(value) => {
 				this.isLogged = value;
 			}
@@ -34,5 +36,9 @@ export class LoginComponent implements OnInit {
 	public login(f: NgForm) {
 		this.loaderBlockService.show();
 		this.authorizationService.login(f.value);
+	}
+
+	public ngOnDestroy() {
+		this.subscriber.unsubscribe();
 	}
 }

@@ -1,6 +1,9 @@
 import {
-	Component, OnInit, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef
+	Component, OnInit, OnChanges, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
+
+import { ISubscription } from 'rxjs/Subscription';
+import * as _ from 'lodash';
 
 import { WindowRefService } from '../../services/window.service';
 import { CourseInstance } from '../../core/entities/courseInstance';
@@ -15,7 +18,8 @@ import { FilterByPipe } from '../../core/pipes/filter-by.pipe';
 	providers: [CoursesService],
 	styles: [require('./courses.component.scss')]
 })
-export class CoursesComponent implements OnInit, OnChanges {
+export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
+	private subscriber: ISubscription;
 	private courses: CourseInstance[];
 	private innerCourses: CourseInstance[];
 	private window: Window;
@@ -28,11 +32,25 @@ export class CoursesComponent implements OnInit, OnChanges {
 		this.window = window.nativeWindow;
 	}
 
+	private filterCourse(course) {
+		let currentDate = new Date();
+		currentDate.setDate(currentDate.getDate() - 14);
+		if (currentDate > new Date(course.date)) {
+			return course;
+		}
+	}
+
 	public ngOnInit(): void {
 		this.getCourses();
-		this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
-			this.innerCourses = courses;
+		this.subscriber = this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
+			_.filter(courses, (o) => {
+				let currentDate = new Date();
+				currentDate.setDate(currentDate.getDate() - 14);
+				return (currentDate < new Date(o.date));
+
+			});
 			this.courses = courses;
+			this.innerCourses = courses;
 			this.cd.markForCheck();
 		});
 	}
@@ -59,5 +77,9 @@ export class CoursesComponent implements OnInit, OnChanges {
 	public sortCourses(value: string): void {
 		let filterByPipe = new FilterByPipe();
 		this.innerCourses = filterByPipe.transform(this.courses, value);
+	}
+
+	public ngOnDestroy() {
+		this.subscriber.unsubscribe();
 	}
 }

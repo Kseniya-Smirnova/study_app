@@ -1,16 +1,10 @@
-interface CourseItemInterface {
-
-}
-
-export class CourseInstance implements CourseItemInterface {
-	constructor(
-		public id: number,
-		public title: string,
-		public date: Date,
-		public topRated: boolean,
-		public duration: number,
-		public description: string,
-		public lecture: string,
-		public createdDate: Date) {
-	}
+export interface  CourseInstance {
+	id?: number,
+	title?: string,
+	date?: Date,
+	topRated?: boolean,
+	duration?: number,
+	description?: string,
+	lecture?: string,
+	createdDate?: Date
 }
