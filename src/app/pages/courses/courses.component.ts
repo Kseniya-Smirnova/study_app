@@ -20,9 +20,11 @@ import { FilterByPipe } from '../../core/pipes/filter-by.pipe';
 })
 export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 	private subscriber: ISubscription;
+	private deleteSubscription: ISubscription;
 	private courses: CourseInstance[];
 	private innerCourses: CourseInstance[];
 	private window: Window;
+	private searchValue: string='';
 
 	constructor(
 		private courseServices: CoursesService,
@@ -41,8 +43,9 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	public ngOnInit(): void {
-		this.getCourses();
+		this.getCourses('0', '3', this.searchValue);
 		this.subscriber = this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
+			console.log(courses);
 			_.filter(courses, (o) => {
 				let currentDate = new Date();
 				currentDate.setDate(currentDate.getDate() - 14);
@@ -59,8 +62,8 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 		console.log('search component: onChanges');
 	}
 
-	public getCourses(): void {
-		this.courseServices.getCourses();
+	public getCourses(start, count, name): void {
+		this.courseServices.getCourses(start, count, name);
 	}
 
 	public deleteCourseComplete(course: CourseInstance): any {
@@ -75,6 +78,8 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	public sortCourses(value: string): void {
+		this.searchValue = value;
+		this.getCourses('0', '3', this.searchValue);
 		let filterByPipe = new FilterByPipe();
 		this.innerCourses = filterByPipe.transform(this.courses, value);
 	}

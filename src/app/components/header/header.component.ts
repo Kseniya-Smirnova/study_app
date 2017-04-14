@@ -14,11 +14,6 @@ export class HeaderComponent implements OnInit {
 
 	}
 
-	public login(): void {
-		this.authorizationService.login({});
-		console.log('Here will be function with redirect to login page');
-	}
-
 	public logout(): void {
 		this.authorizationService.logout();
 	}

@@ -13,7 +13,7 @@ export class SearchComponent {
 		this.findCourseValue = new EventEmitter();
 	}
 
-	public findCourse(element: string): void {
-		this.findCourseValue.emit(element);
+	public findCourse(value: string): void {
+		this.findCourseValue.emit(value);
 	}
 }
