@@ -19,12 +19,14 @@ import { FilterByPipe } from '../../core/pipes/filter-by.pipe';
 	styles: [require('./courses.component.scss')]
 })
 export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
-	private subscriber: ISubscription;
+	private subscribtion: ISubscription;
+	private count: string = '5';
+	private start: string = '0';
 	private deleteSubscription: ISubscription;
 	private courses: CourseInstance[];
 	private innerCourses: CourseInstance[];
 	private window: Window;
-	private searchValue: string='';
+	private searchValue: string = '';
 
 	constructor(
 		private courseServices: CoursesService,
@@ -34,23 +36,13 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 		this.window = window.nativeWindow;
 	}
 
-	private filterCourse(course) {
-		let currentDate = new Date();
-		currentDate.setDate(currentDate.getDate() - 14);
-		if (currentDate > new Date(course.date)) {
-			return course;
-		}
-	}
-
 	public ngOnInit(): void {
-		this.getCourses('0', '3', this.searchValue);
-		this.subscriber = this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
-			console.log(courses);
+		this.getCourses(this.start, this.count, this.searchValue);
+		this.subscribtion = this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
 			_.filter(courses, (o) => {
 				let currentDate = new Date();
 				currentDate.setDate(currentDate.getDate() - 14);
 				return (currentDate < new Date(o.date));
-
 			});
 			this.courses = courses;
 			this.innerCourses = courses;
@@ -71,7 +63,7 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 		let confirm = this.window.confirm('Do you really want to delete course?');
 
 		if (confirm) {
-			this.courseServices.removeCourse(course);
+			this.courseServices.removeCourse(course, this.start, this.count, this.searchValue);
 			this.innerCourses = this.courses;
 		}
 		this.loaderBlockService.hide();
@@ -79,12 +71,24 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 
 	public sortCourses(value: string): void {
 		this.searchValue = value;
-		this.getCourses('0', '3', this.searchValue);
+		this.getCourses(this.start, this.count, this.searchValue);
 		let filterByPipe = new FilterByPipe();
 		this.innerCourses = filterByPipe.transform(this.courses, value);
 	}
 
+	public getCourseForPage(value) {
+		this.getCourses(value, this.count, this.searchValue);
+	}
+
 	public ngOnDestroy() {
-		this.subscriber.unsubscribe();
+		this.subscribtion.unsubscribe();
+	}
+
+	private filterCourse(course) {
+		let currentDate = new Date();
+		currentDate.setDate(currentDate.getDate() - 14);
+		if (currentDate > new Date(course.date)) {
+			return course;
+		}
 	}
 }

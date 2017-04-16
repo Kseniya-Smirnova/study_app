@@ -1,0 +1,6 @@
+<ul class="pagination">
+	<li *ngFor="let page of pages"
+		class="pagination-page page-item">
+		<button class="page-link" (click)="selectPage(page.text)">{{page.text}}</button><!--href (click)="selectPage(pg.number, $event)" [innerHTML]="pg.text"-->
+	</li>
+</ul>

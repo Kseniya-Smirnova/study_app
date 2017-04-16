@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpModule, RequestOptions, XHRBackend } from '@angular/http';
+
 import {
 	NgModule,
 	ApplicationRef
@@ -37,6 +38,8 @@ import { LoginModule } from './pages/login';
 import { CreateCourseModule } from './pages/create-course';
 import { PipeModule }    from './core/pipes/pipe.module';
 
+import { HttpService } from './services/http.service';
+
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
@@ -65,7 +68,8 @@ import { PipeModule }    from './core/pipes/pipe.module';
 		ENV_PROVIDERS,
 		ZoneService,
 		AuthorizationService,
-		LoaderBlockService
+		LoaderBlockService,
+		HttpService
 	]
 })
 export class AppModule {

@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ISubscription } from 'rxjs/Subscription';
-import {Router} from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { WindowRefService } from '../../services/window.service';
@@ -12,7 +13,7 @@ import { LoaderBlockService } from '../../components/loader-block/loader-block.s
 	template: require('./login.component.html')
 })
 export class LoginComponent implements OnInit, OnDestroy {
-	private subscriber: ISubscription;
+	private subscription: ISubscription;
 	private subscriptionLogin: ISubscription;
 	private isLogged: boolean;
 	private login: string = '';
@@ -26,11 +27,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private router: Router
 	) {
 		this.window = window.nativeWindow;
-		console.log('router', router);
 	}
 
 	public ngOnInit() {
-		this.subscriber = this.authorizationService.subscribeForLogin().subscribe(
+		this.subscription = this.authorizationService.subscribeForLogin().subscribe(
 			(value) => {
 				this.isLogged = value;
 			}
@@ -39,13 +39,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	public logIn(f: NgForm) {
 		this.loaderBlockService.show();
-		this.subscriptionLogin = this.authorizationService.login(f.value).subscribe(() => {
-			this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
-		});
+		this.subscriptionLogin = this.authorizationService.login(f.value).subscribe(
+			() => {
+				this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
+			},
+			(error) => {
+				alert('Try again');
+				console.log(error);
+				location.reload();
+			});
 	}
 
 	public ngOnDestroy() {
-		this.subscriber.unsubscribe();
-		// this.subscriptionLogin.unsubscribe(); //ругается на это :(
+		this.subscription.unsubscribe();
+		this.subscriptionLogin.unsubscribe();
 	}
 }

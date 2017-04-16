@@ -12,6 +12,7 @@ import { routes } from './courses.routes';
 import { CoursesComponent } from './courses.component';
 import { CourseItemComponent } from '../../components/course-item/course-item.component';
 import { SearchComponent } from '../../components/search/search.component';
+import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { DateHighlightDirective } from '../../core/directives/attribute/date-highlight.directive';
 import { PipeModule } from '../../core/pipes/pipe.module';
 import { OrderByPipe } from '../../core/pipes/order-by.pipe';
@@ -22,7 +23,8 @@ import { OrderByPipe } from '../../core/pipes/order-by.pipe';
 		CourseItemComponent,
 		SearchComponent,
 		DateHighlightDirective,
-		OrderByPipe
+		OrderByPipe,
+		PaginationComponent
 	],
 	imports: [
 		[routes, BrowserModule, FormsModule, PipeModule]

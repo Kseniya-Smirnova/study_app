@@ -22,6 +22,7 @@ export class CoursesService {
 		this.http.get('http://localhost:3004/courses', {
 			search: params
 		}).map((data) => {
+			console.log('updated', data.json());
 			return data.json();
 		}).subscribe((data) => this.courses.next(data));
 	}
@@ -44,7 +45,10 @@ export class CoursesService {
 		}
 	}
 
-	public removeCourse(course): void {
-		_.remove(this.courses['value'], course);
+	public removeCourse(course, start, count, search): any {
+		return this.http.delete('http://localhost:3004/courses/' + course.id)
+			.map((data) => console.log(data)).subscribe(() => {
+				this.getCourses(start, count, search);
+			});
 	}
 }

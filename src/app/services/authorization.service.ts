@@ -4,12 +4,13 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { HttpService } from './http.service';
+
 @Injectable()
 export class AuthorizationService {
 	public isLogged: BehaviorSubject<boolean>;
 
-	constructor(private http: Http) {
-		// here will be checked token and the passed false or true
+	constructor(private http: Http, private httpService: HttpService) {
 		this.isLogged = <BehaviorSubject<boolean>> new BehaviorSubject(false);
 	}
 
@@ -17,10 +18,10 @@ export class AuthorizationService {
 		return this.isLogged.asObservable();
 	}
 
-	public login(user): Observable<Object> { //.subscribe((data) => {console.log(data)});
-		let headers = new Headers({ 'Content-Type': 'application/json' });
-		let options = new RequestOptions({ headers: headers });
-		return this.http.post('http://localhost:3004/auth/login', user, options)
+	public login(user): Observable<Object> {
+		// не очень поняла практическое применения этого экстенда,
+		// напрмиер для getUserInfo мы используем другие заголовки
+		return this.httpService.post('http://localhost:3004/auth/login', user)
 			.map((response: Response) => {
 				let tokenInfo = response.json();
 				if (tokenInfo && tokenInfo.token) {
@@ -32,7 +33,7 @@ export class AuthorizationService {
 				this.isLogged.next(true);
 				return tokenInfo;
 
-				//что правильно вернуть отсюда, если например запрос был саксес. но респонс не вернул токена
+				// что правильно вернуть отсюда, если например запрос был саксес. но респонс не вернул токена
 		});
 	}
 
@@ -40,15 +41,15 @@ export class AuthorizationService {
 		if (token) {
 			let user = {
 					fakeToken: token
-				},
-				headers = new Headers({'Authorization': token}),
-				options = new RequestOptions({ headers: headers });
+				};
+			let headers = new Headers({Authorization: token});
+			let options = new RequestOptions({ headers: headers });
 
 			return this.http.post('http://localhost:3004/auth/userinfo', user, options)
 				.map((response: Response) => {
 					let userInfo = response.json().name;
 					return userInfo;
-				})
+				});
 		}
 	}
 
@@ -64,9 +65,4 @@ export class AuthorizationService {
 
 		return false;
 	}
-
-	// public getUserInfo(): string {
-	// 	let user = localStorage.getItem('user');
-	// 	return JSON.parse(user).username;
-	// }
 }
