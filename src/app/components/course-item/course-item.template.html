@@ -1,8 +1,8 @@
 <div class="row course-item" [dateHighlight]="course.date" [ngClass]="{'course-rated': course.topRated}">
 	<div class="col-10">
 		<p class="course-attributes">
-			<span>{{course.id}}. {{course.title | uppercase}}</span>
-			<span>{{course.duration | myDurationLength}}</span>
+			<span>{{course.id}}. {{course.name | uppercase}}</span>
+			<span>{{course.length | myDurationLength}}</span>
 			<span class="course-star" *ngIf="course.topRated"></span>
 			<span  class="course-date">{{course.date | date:'medium'}}</span>
 		</p>

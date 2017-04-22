@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/map';
+
+import { HttpService } from './http.service';
 
 @Injectable()
 export class AuthorizationService {
 	public isLogged: BehaviorSubject<boolean>;
 
-	constructor() {
-		// here will be checked token and the passed false or true
+	constructor(private http: Http, private httpService: HttpService) {
 		this.isLogged = <BehaviorSubject<boolean>> new BehaviorSubject(false);
 	}
 
@@ -15,24 +18,44 @@ export class AuthorizationService {
 		return this.isLogged.asObservable();
 	}
 
-	public saveUserInfo(username, token): void {
-		localStorage.setItem('user', JSON.stringify({username, token}));
+	public login(user): Observable<Object> {
+		// не очень поняла практическое применения этого экстенда,
+		// напрмиер для getUserInfo мы используем другие заголовки
+		return this.httpService.post('http://localhost:3004/auth/login', user)
+			.map((response: Response) => {
+				let tokenInfo = response.json();
+				if (tokenInfo && tokenInfo.token) {
+					localStorage.setItem('currentUser', tokenInfo.token);
+					// this.getUserInfo(tokenInfo.token);
+					// тут я запуталась - как между собой связать функции login и getUserInfp !!!!switchMap????
+					// между ними надо как то переключаться?
+				}
+				this.isLogged.next(true);
+				return tokenInfo;
+
+				// что правильно вернуть отсюда, если например запрос был саксес. но респонс не вернул токена
+		});
 	}
 
-	public login(user: Object): void {
-		// if logged successfully
-		this.isLogged.next(true);
+	public getUserInfo(token) {
+		if (token) {
+			let user = {
+					fakeToken: token
+				};
+			let headers = new Headers({Authorization: token});
+			let options = new RequestOptions({ headers: headers });
 
-		console.log('User has username and password:', user);
-		// here will be request with { username: username, password: password }
-		// after get response it will be something like
-		// let token = response.json() && response.json().token;
-		// this.saveUserInfo(username, token);
+			return this.http.post('http://localhost:3004/auth/userinfo', user, options)
+				.map((response: Response) => {
+					let userInfo = response.json().name;
+					return userInfo;
+				});
+		}
 	}
 
 	public logout(): void {
 		this.isLogged.next(false);
-		localStorage.removeItem('user');
+		localStorage.removeItem('currentUser');
 	}
 
 	public isAuthenticated(): boolean {
@@ -41,10 +64,5 @@ export class AuthorizationService {
 		}
 
 		return false;
-	}
-
-	public getUserInfo(): string {
-		let user = localStorage.getItem('user');
-		return JSON.parse(user).username;
 	}
 }

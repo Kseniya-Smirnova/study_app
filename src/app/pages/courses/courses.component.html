@@ -8,3 +8,11 @@
 
 	<div *ngIf="!innerCourses.length" class="no-courses">No data. Feel free to add new course.</div>
 </div>
+
+<div class="container">
+	<pagination
+		(selectPageNumber)="getCourseForPage($event)"
+		[countForPage]="countForPage"
+		[defaultPageNumber]="defaultPageNumber"></pagination>
+</div>
+

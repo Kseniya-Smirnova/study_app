@@ -1,9 +1,9 @@
 export interface  CourseInstance {
 	id?: number,
-	title?: string,
+	name?: string,
 	date?: Date,
-	topRated?: boolean,
-	duration?: number,
+	isTopRated?: boolean,
+	length?: number,
 	description?: string,
 	lecture?: string,
 	createdDate?: Date

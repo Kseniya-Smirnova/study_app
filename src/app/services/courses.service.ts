@@ -1,19 +1,30 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/map';
+import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
 
 import { CourseInstance } from '../core/entities/courseInstance';
-import { Courses } from './mock-courses';
 
 @Injectable()
 export class CoursesService {
 	public courses: BehaviorSubject<CourseInstance[]>;
-	constructor() {
+	constructor(private http: Http) {
 		this.courses = new BehaviorSubject<CourseInstance[]>([]);
 	}
 
-	public getCourses() {
-		this.courses.next(Courses);
+	public getCourses(start, count, name) {
+		let params = new URLSearchParams();
+		params.set('start', start);
+		params.set('count', count);
+		params.set('name', name);
+
+		this.http.get('http://localhost:3004/courses', {
+			search: params
+		}).map((data) => {
+			console.log('updated', data.json());
+			return data.json();
+		}).subscribe((data) => this.courses.next(data));
 	}
 
 	public createCourse(course): void {
@@ -34,7 +45,10 @@ export class CoursesService {
 		}
 	}
 
-	public removeCourse(course): void {
-		_.remove(this.courses['value'], course);
+	public removeCourse(course, start, count, search): any {
+		return this.http.delete('http://localhost:3004/courses/' + course.id)
+			.map((data) => console.log(data)).subscribe(() => {
+				this.getCourses(start, count, search);
+			});
 	}
 }

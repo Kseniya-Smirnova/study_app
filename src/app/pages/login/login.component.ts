@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ISubscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { WindowRefService } from '../../services/window.service';
@@ -11,34 +13,45 @@ import { LoaderBlockService } from '../../components/loader-block/loader-block.s
 	template: require('./login.component.html')
 })
 export class LoginComponent implements OnInit, OnDestroy {
-	private subscriber: ISubscription;
+	private subscription: ISubscription;
+	private subscriptionLogin: ISubscription;
 	private isLogged: boolean;
-	private model: any = {};
+	private login: string = '';
+	private password: string = '';
 	private window: Window;
 
 	constructor(
 		private authorizationService: AuthorizationService,
 		window: WindowRefService,
-		private loaderBlockService: LoaderBlockService
+		private loaderBlockService: LoaderBlockService,
+		private router: Router
 	) {
 		this.window = window.nativeWindow;
-		this.model = {};
 	}
 
 	public ngOnInit() {
-		this.subscriber = this.authorizationService.subscribeForLogin().subscribe(
+		this.subscription = this.authorizationService.subscribeForLogin().subscribe(
 			(value) => {
 				this.isLogged = value;
 			}
 		);
 	}
 
-	public login(f: NgForm) {
+	public logIn(f: NgForm) {
 		this.loaderBlockService.show();
-		this.authorizationService.login(f.value);
+		this.subscriptionLogin = this.authorizationService.login(f.value).subscribe(
+			() => {
+				this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
+			},
+			(error) => {
+				alert('Try again');
+				console.log(error);
+				location.reload();
+			});
 	}
 
 	public ngOnDestroy() {
-		this.subscriber.unsubscribe();
+		this.subscription.unsubscribe();
+		this.subscriptionLogin.unsubscribe();
 	}
 }
