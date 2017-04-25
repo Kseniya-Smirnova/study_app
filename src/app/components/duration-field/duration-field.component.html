@@ -1,0 +1,2 @@
+<input type="text" [value]="duration" (change)="onChange($event)" name="duration">
+<span *ngIf="c.valid">{{duration | myDurationLength}}</span>

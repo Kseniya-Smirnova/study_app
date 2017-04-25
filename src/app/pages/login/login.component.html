@@ -3,19 +3,19 @@
 		<label for="inputUsername" class="col-2 control-label">Login</label>
 		<div class="col-10">
 			<input type="text" id="inputUsername" class="form-control" placeholder="Username"
-			ngModel name="login" #login="ngModel">
+			ngModel name="login" #login="ngModel" required>
 		</div>
 	</div>
 	<div class="form-group form-inline">
 		<label for="inputPassword" class="col-2 control-label">Password</label>
 		<div class="col-10">
 			<input type="password" class="form-control" id="inputPassword" placeholder="Password"
-				   ngModel name="password" #password="ngModel">
+				   ngModel name="password" #password="ngModel" required>
 		</div>
 	</div>
 	<div class="form-group form-inline">
 		<div class="offset-2 col-10">
-			<button type="submit" class="btn btn-default btn-outline-success">Login</button>
+			<button type="submit" class="btn btn-default btn-outline-success" [disabled]="f.invalid">Login</button>
 		</div>
 	</div>
 </form>

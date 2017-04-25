@@ -1,0 +1,9 @@
+@import "../../styles/variables/colors";
+
+.ng-touched.ng-invalid {
+	border: 2px solid $c-flamingo;
+}
+
+fieldset, form {
+	border: none !important;
+}

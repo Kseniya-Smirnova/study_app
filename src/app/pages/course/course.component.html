@@ -1,0 +1,63 @@
+<form class="form-horizontal" [formGroup]="courseForm" (submit)="submit(courseForm)">
+	<fieldset formGroupName="course">
+		<div class="form-group form-inline">
+			<label class="col-2 control-label" for="name">Title</label>
+			<div class="col-10">
+				<input type="text" id="name" formControlName="name">
+				<span class="alert alert-danger"
+					  *ngIf="showValidateError('name')">
+						The field is invalid
+				</span>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Description</label>
+			<div class="col-10">
+				<textarea id="description" formControlName="description"></textarea>
+				<span class="alert alert-danger"
+				*ngIf="showValidateError('description')">
+					The field is invalid
+				</span>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Date</label>
+			<div class="col-10">
+				<date-field id="date" formControlName="date"></date-field>
+				<!-- does not work because of untouched-->
+				<span class="alert alert-danger"
+					  *ngIf="showValidateError('date')">
+					The field is invalid
+				</span>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Duration</label>
+			<div class="col-10">
+				<duration-field formControlName="length" [c]="courseForm.get('course').get('length')"></duration-field>
+				<!-- я бы вынесла эти еррор мессаджи внутрь компонентов, но они там все время untouched :( -->
+				<span class="alert alert-danger"
+					  *ngIf="showValidateError('length')">
+					The field is invalid
+				</span>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-2 control-label">Authors</label>
+			<div class="col-10">
+				<author-list [authors]="authors" formControlName="author"
+					[nameOption]="authors"></author-list>
+				<span class="alert alert-danger"
+					  *ngIf="showValidateError('author')">
+					The field is invalid
+				</span>
+			</div>
+		</div>
+	</fieldset>
+	<div class="form-group form-inline">
+		<div class="offset-2 col-10">
+			<button type="submit" class="btn btn-success" [disabled]="courseForm.invalid">Save</button>
+			<button type="button" class="btn btn-info">Cancel</button>
+		</div>
+	</div>
+</form>
