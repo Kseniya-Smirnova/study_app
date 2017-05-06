@@ -31,8 +31,16 @@ export class CoursesService {
 		this.courses.next(course);
 	}
 
-	public getCourse(id): CourseInstance {
-		return _.find(this.courses['value'], {id});
+	public getCourse(id) {
+		let params = new URLSearchParams();
+		params.set('id', id);
+
+		this.http.get('http://localhost:3004/course', {
+			search: params
+		}).map((data) => {
+			console.log('updated', data.json());
+			return data.json();
+		}).subscribe((data) => this.courses.next(data));
 	}
 
 	public updateCourse(course): void {

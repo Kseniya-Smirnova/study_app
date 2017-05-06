@@ -14,6 +14,10 @@ export class AuthorizationService {
 		this.isLogged = <BehaviorSubject<boolean>> new BehaviorSubject(false);
 	}
 
+	public checkIsLogged() {
+		return this.isLogged;
+	}
+
 	public subscribeForLogin(): Observable<boolean> {
 		return this.isLogged.asObservable();
 	}
@@ -56,13 +60,5 @@ export class AuthorizationService {
 	public logout(): void {
 		this.isLogged.next(false);
 		localStorage.removeItem('currentUser');
-	}
-
-	public isAuthenticated(): boolean {
-		if (localStorage.getItem('user')) {
-			return true;
-		}
-
-		return false;
 	}
 }

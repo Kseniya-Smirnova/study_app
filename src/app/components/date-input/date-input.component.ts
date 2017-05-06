@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
@@ -7,11 +7,11 @@ import { ChangeDetectionStrategy } from '@angular/core';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateInputComponent {
-	public date: string;
 	@Output() private createDate: EventEmitter<string>;
+	@Input() public date: string;
 
 	constructor() {
-		this.date = '';
+		console.log(this.date);
 		this.createDate = new EventEmitter();
 	}
 

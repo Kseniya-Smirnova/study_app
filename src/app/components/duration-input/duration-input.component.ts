@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
@@ -7,10 +7,15 @@ import { ChangeDetectionStrategy } from '@angular/core';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DurationInputComponent {
-	// @Output() private createDate: EventEmitter<string>;
-	public duration: number;
+	@Input() private duration: number;
+	// public duration: number;
 
-	constructor() {
+	constructor(private cd: ChangeDetectorRef) {
+	}
 
+	ngOnInit() {
+		console.log(123, this.duration);
+		this.cd.markForCheck();
+		console.log(123, this.duration);
 	}
 }
