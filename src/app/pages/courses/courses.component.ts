@@ -10,6 +10,7 @@ import { CourseInstance } from '../../core/entities/courseInstance';
 import { CoursesService } from '../../services/courses.service';
 import { LoaderBlockService } from '../../components/loader-block/loader-block.service';
 import { FilterByPipe } from '../../core/pipes/filter-by.pipe';
+import { BreadcrumbService } from '../../components/breadcrumbs/breadcrumbs.service';
 
 @Component({
 	selector: 'courses',
@@ -32,7 +33,8 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 		private courseServices: CoursesService,
 		window: WindowRefService,
 		private loaderBlockService: LoaderBlockService,
-		private cd: ChangeDetectorRef) {
+		private cd: ChangeDetectorRef,
+		private	breadcrumbService: BreadcrumbService) {
 		this.window = window.nativeWindow;
 	}
 
@@ -48,6 +50,8 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 			this.innerCourses = courses;
 			this.cd.markForCheck();
 		});
+
+		this.breadcrumbService.initBreadcrumbs({name: 'Courses', path: '/#/courses/'});
 	}
 
 	public ngOnChanges() {

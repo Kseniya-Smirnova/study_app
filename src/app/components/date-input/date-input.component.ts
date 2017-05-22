@@ -7,8 +7,8 @@ import { ChangeDetectionStrategy } from '@angular/core';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateInputComponent {
-	@Output() private createDate: EventEmitter<string>;
 	@Input() public date: string;
+	@Output() private createDate: EventEmitter<string>;
 
 	constructor() {
 		console.log(this.date);

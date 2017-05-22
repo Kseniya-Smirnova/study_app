@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { CourseInstance } from '../../core/entities/courseInstance';
 import { CoursesService } from '../../services/courses.service';
+import { BreadcrumbService } from '../../components/breadcrumbs/breadcrumbs.service';
 
 @Component({
 	selector: 'create-course',
@@ -16,12 +17,16 @@ import { CoursesService } from '../../services/courses.service';
 export class CreateCourseComponent implements OnInit {
 	public course: CourseInstance;
 
-	constructor(private route: ActivatedRoute, private coursesService: CoursesService, private cd: ChangeDetectorRef) {
-		console.log('constructor');
-	}
+	constructor(
+		private route: ActivatedRoute,
+		private coursesService: CoursesService,
+		private cd: ChangeDetectorRef,
+		private router: Router,
+		private breadcrumbService: BreadcrumbService) {}
 
 	public createCourse(f: NgForm) {
-		console.log('the course will be added with data' + JSON.stringify(f.value));
+		this.coursesService.createCourse(f.value);
+		this.router.navigate(['/courses']);
 	}
 
 	public addCourseDate(value) {
@@ -36,8 +41,13 @@ export class CreateCourseComponent implements OnInit {
 			.subscribe((data) => console.log('data', data));
 
 		this.coursesService.courses.subscribe((courses: CourseInstance[]) => {
-			this.course = courses.length ? courses[0] : {};
-			console.log(this.course);
+			if (courses.length) {
+				this.course = courses[0];
+				this.breadcrumbService.push({name: this.course.name, path: '/#/courses/' + this.course.id});
+			} else {
+				this.course = {};
+				this.breadcrumbService.push({name: 'New course', path: '/#/courses/new'});
+			}
 			this.cd.markForCheck();
 		});
 	}

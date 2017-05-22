@@ -7,15 +7,13 @@ import { ChangeDetectionStrategy } from '@angular/core';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DurationInputComponent {
-	@Input() private duration: number;
+	@Input() public duration: number;
 	// public duration: number;
 
 	constructor(private cd: ChangeDetectorRef) {
 	}
 
-	ngOnInit() {
-		console.log(123, this.duration);
+	public ngOnInit() {
 		this.cd.markForCheck();
-		console.log(123, this.duration);
 	}
 }

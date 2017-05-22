@@ -28,7 +28,10 @@ export class CoursesService {
 	}
 
 	public createCourse(course): void {
-		this.courses.next(course);
+		let headers = new Headers({ 'Content-Type': 'application/json' });
+		let options = new RequestOptions({ headers: headers });
+
+		this.http.post('http://localhost:3004/courses', course, options);
 	}
 
 	public getCourse(id) {

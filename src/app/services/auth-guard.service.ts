@@ -10,14 +10,14 @@ import { AuthorizationService } from './authorization.service';
 export class AuthorizationGuard implements CanActivate {
 	public isLogged: boolean;
 	constructor(private authorizationService: AuthorizationService, private router: Router) {
-		this.authorizationService.subscribeForLogin().subscribe((value) => this.isLogged = value)
+		this.authorizationService.subscribeForLogin().subscribe((value) => this.isLogged = value);
 	}
 
-	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+	public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 		return this.checkLogin();
 	}
 
-	checkLogin(): boolean {
+	public checkLogin(): boolean {
 		console.log(this.isLogged);
 		if (this.isLogged) {
 			return true;
