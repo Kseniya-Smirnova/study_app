@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ISubscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { AuthorizationService } from '../../services/authorization.service';
 import { WindowRefService } from '../../services/window.service';
@@ -24,8 +25,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private authorizationService: AuthorizationService,
 		window: WindowRefService,
 		private loaderBlockService: LoaderBlockService,
-		private router: Router
+		private router: Router,
+		private store: Store<any>
 	) {
+		this.store.select('authorization').subscribe((logged) => {
+			console.log(logged);
+			if (logged) {
+				console.log(123456);
+				this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
+			}
+		});
 		this.window = window.nativeWindow;
 	}
 
@@ -39,15 +48,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	public logIn(f: NgForm) {
 		this.loaderBlockService.show();
-		this.subscriptionLogin = this.authorizationService.login(f.value).subscribe(
-			() => {
-				this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
-			},
-			(error) => {
-				alert('Try again');
-				console.log(error);
-				location.reload();
-			});
+		this.authorizationService.login(f.value).then(() => {
+			this.loaderBlockService.hide();
+		});
 	}
 
 	public ngOnDestroy() {

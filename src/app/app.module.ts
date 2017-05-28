@@ -13,7 +13,7 @@ import {
 	RouterModule,
 	PreloadAllModules
 } from '@angular/router';
-
+import { StoreModule } from '@ngrx/store';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -27,6 +27,8 @@ import { AuthorizationService } from './services/authorization.service';
 import { LoaderBlockService } from './components/loader-block/loader-block.service';
 import { AuthorizationGuard }  from './services/auth-guard.service';
 import { BreadcrumbService }  from './components/breadcrumbs/breadcrumbs.service';
+
+import AuthorizationReducer from './core/reducers/authorization.reducer';
 
 // Components
 import { FooterModule } from './components/footer';
@@ -62,7 +64,10 @@ import { HttpService } from './services/http.service';
 		LoginModule,
 		CreateCourseModule,
 		LoaderBlockModule,
-		PipeModule
+		PipeModule,
+		StoreModule.provideStore({
+			authorization: AuthorizationReducer
+		})
 		// is it possible to import pipe globally other more transparent way?
 	],
 	exports: [PipeModule],
