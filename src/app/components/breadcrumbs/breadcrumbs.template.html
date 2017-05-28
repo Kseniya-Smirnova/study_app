@@ -1,1 +1,6 @@
-<div class="breadcrumbs">Here goes breadcrumbs</div>
+<ol class="breadcrumb">
+	<li *ngFor="let item of breadcrumbs; let last = last">
+		<a *ngIf="!last" href="{{item.path}}">{{item.name}}</a>
+		<span *ngIf="last">{{item.name}}</span>
+	</li>
+</ol>

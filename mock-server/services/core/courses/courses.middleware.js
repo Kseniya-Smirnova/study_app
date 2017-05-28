@@ -28,11 +28,31 @@ module.exports = (server) => {
 		if (new_courses.length < to) {
 			to = new_courses.length;
 		}
-		console.log(new_courses);
+
 		new_courses = new_courses.slice(from, to);
 
 		res.json(new_courses);
 	});
+
+	router.get('/course', (req, res, next) => {
+		let url_parts = url.parse(req.originalUrl, true),
+		query = url_parts.query,
+		courses = server.db.getState().courses,
+		new_courses = [];
+
+
+	if(!query.id || query.id === '') {
+		new_courses = courses;
+	} else {
+		courses.find((course) => {
+			if(parseInt(course.id) === parseInt(query.id)) {
+				new_courses.push(course);
+			}
+		});
+	}
+	res.json(new_courses);
+	});
+
 
 	return router;
 };

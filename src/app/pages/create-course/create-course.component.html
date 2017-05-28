@@ -8,7 +8,7 @@
 					   placeholder="Enter course title"
 					   id="title"
 					   name="title"
-					   [(ngModel)]="course.title"
+					   [(ngModel)]="course.name"
 					   #title="ngModel"
 					   required>
 			</div>
@@ -27,20 +27,20 @@
 		</div>
 		<div class="form-group form-inline">
 			<label class="col-2 control-label">Date</label>
-			<div class="col-10">
-				<date-input (createDate)="addCourseDate($event)"></date-input>
+			<div class="col-10"><!-- Так не апдейтается - как правильно апдейтать?-->
+				<date-input (createDate)="addCourseDate($event)" [date]="course.date"></date-input>
 			</div>
 		</div>
 		<div class="form-group form-inline">
 			<label class="col-2 control-label">Duration</label>
-			<div class="col-10">
-				<duration-input></duration-input>
+			<div class="col-10"> <!-- Так не апдейтается - как правильно апдейтать?-->
+				<duration-input [duration]="course.length"></duration-input>
 			</div>
 		</div>
 		<div class="form-group form-inline">
 			<div class="col-10 offset-2">
 				<button class="btn btn-success" type="submit">Save</button>
-				<button class="btn btn-danger" type="button">Cancel</button>
+				<a class="btn btn-danger" type="button" routerLink="/courses">Cancel</a>
 			</div>
 		</div>
 	</form>

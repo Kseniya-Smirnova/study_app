@@ -11,7 +11,7 @@
 		<p><strong>The course was created:</strong> {{course.createdDate | date:'shortDate'}}</p>
 	</div>
 	<div class="col-2">
-		<button class="btn btn-primary btn-block">Edit course</button>
+		<button class="btn btn-primary btn-block" [routerLink]="[course.id]">Edit course</button>
 		<button class="btn btn-primary btn-block" (click)="deleteCourseAction(course)">Remove</button>
 	</div>
 </div>

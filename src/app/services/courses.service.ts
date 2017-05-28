@@ -28,11 +28,22 @@ export class CoursesService {
 	}
 
 	public createCourse(course): void {
-		this.courses.next(course);
+		let headers = new Headers({ 'Content-Type': 'application/json' });
+		let options = new RequestOptions({ headers: headers });
+
+		this.http.post('http://localhost:3004/courses', course, options);
 	}
 
-	public getCourse(id): CourseInstance {
-		return _.find(this.courses['value'], {id});
+	public getCourse(id) {
+		let params = new URLSearchParams();
+		params.set('id', id);
+
+		this.http.get('http://localhost:3004/course', {
+			search: params
+		}).map((data) => {
+			console.log('updated', data.json());
+			return data.json();
+		}).subscribe((data) => this.courses.next(data));
 	}
 
 	public updateCourse(course): void {

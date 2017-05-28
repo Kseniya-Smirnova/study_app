@@ -25,6 +25,8 @@ import { NoContentComponent } from './pages/no-content';
 import { ZoneService } from './services/zone.service';
 import { AuthorizationService } from './services/authorization.service';
 import { LoaderBlockService } from './components/loader-block/loader-block.service';
+import { AuthorizationGuard }  from './services/auth-guard.service';
+import { BreadcrumbService }  from './components/breadcrumbs/breadcrumbs.service';
 
 // Components
 import { FooterModule } from './components/footer';
@@ -69,7 +71,9 @@ import { HttpService } from './services/http.service';
 		ZoneService,
 		AuthorizationService,
 		LoaderBlockService,
-		HttpService
+		HttpService,
+		AuthorizationGuard,
+		BreadcrumbService
 	]
 })
 export class AppModule {
