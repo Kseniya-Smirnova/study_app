@@ -28,7 +28,9 @@ import { LoaderBlockService } from './components/loader-block/loader-block.servi
 import { AuthorizationGuard }  from './services/auth-guard.service';
 import { BreadcrumbService }  from './components/breadcrumbs/breadcrumbs.service';
 
-import AuthorizationReducer from './core/reducers/authorization.reducer';
+import { authorizationReducer } from './core/reducers/authorization.reducer';
+import { coursesReducer } from './core/reducers/courses.reducer';
+import { courseReducer } from './core/reducers/course.reducer';
 
 // Components
 import { FooterModule } from './components/footer';
@@ -66,7 +68,9 @@ import { HttpService } from './services/http.service';
 		LoaderBlockModule,
 		PipeModule,
 		StoreModule.provideStore({
-			authorization: AuthorizationReducer
+			authorization: authorizationReducer,
+			courses: coursesReducer,
+			course: courseReducer
 		})
 		// is it possible to import pipe globally other more transparent way?
 	],

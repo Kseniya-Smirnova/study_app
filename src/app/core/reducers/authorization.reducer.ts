@@ -1,14 +1,18 @@
 import { Action } from '@ngrx/store';
 
-export const LOGIN='login';
-export const LOGOUT='logout';
+export const LOGIN = 'login';
+export const LOGOUT = 'logout';
 
-export function AuthorizationReducer(store: boolean = false, action: Action) {
+export function authorizationReducer(store: any, action: Action) {
 	switch (action.type) {
 		case LOGIN:
-			return true;
+			return {
+				user: action.payload
+			};
 		case LOGOUT:
-			return false;
+			return {
+				user: action.payload
+			};
 		default:
 			return store;
 	}

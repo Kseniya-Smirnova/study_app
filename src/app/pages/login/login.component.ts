@@ -28,10 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private store: Store<any>
 	) {
-		this.store.select('authorization').subscribe((logged) => {
-			console.log(logged);
-			if (logged) {
-				console.log(123456);
+		this.store.select('authorization').subscribe((data) => {
+			if (data) {
 				this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
 			}
 		});

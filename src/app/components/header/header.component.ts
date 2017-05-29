@@ -11,11 +11,14 @@ import { Store } from '@ngrx/store';
 export class HeaderComponent implements OnInit {
 	public isLogged: any;
 
-	constructor(private authorizationService: AuthorizationService,
-				private cd: ChangeDetectorRef,
-				private store: Store<any>) {
+	constructor(
+		private authorizationService: AuthorizationService,
+		private cd: ChangeDetectorRef,
+		private store: Store<any>
+	) {
 		this.store.select('authorization').subscribe((isLogged) => {
-			this.isLogged = isLogged;
+			this.isLogged = isLogged ? true : false;
+			this.cd.markForCheck();
 		});
 	}
 

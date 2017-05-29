@@ -32,7 +32,7 @@ export class DurationFieldComponent implements ControlValueAccessor {
 
 	public registerOnTouched(fn: any): void {};
 
-	private onChange(event) {
+	public onChange(event) {
 		this.duration = event.target.value;
 		this.propagateChange(this.duration);
 	}

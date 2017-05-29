@@ -7,6 +7,8 @@ import { CourseInstance } from '../../core/entities/courseInstance';
 import { CoursesService } from '../../services/courses.service';
 import { BreadcrumbService } from '../../components/breadcrumbs/breadcrumbs.service';
 
+import { Store } from '@ngrx/store';
+
 @Component({
 	selector: 'create-course',
 	template: require('./create-course.component.html'),
@@ -22,7 +24,8 @@ export class CreateCourseComponent implements OnInit {
 		private coursesService: CoursesService,
 		private cd: ChangeDetectorRef,
 		private router: Router,
-		private breadcrumbService: BreadcrumbService) {}
+		private breadcrumbService: BreadcrumbService,
+		private store: Store<any>) {}
 
 	public createCourse(f: NgForm) {
 		this.coursesService.createCourse(f.value);
@@ -40,8 +43,8 @@ export class CreateCourseComponent implements OnInit {
 			.map((params: Params) => this.coursesService.getCourse(+params['id']))
 			.subscribe((data) => console.log('data', data));
 
-		this.coursesService.courses.subscribe((courses: CourseInstance[]) => {
-			if (courses.length) {
+		this.store.select('course').subscribe((courses: CourseInstance[]) => {
+			if (courses && courses.length) {
 				this.course = courses[0];
 				this.breadcrumbService.push({name: this.course.name, path: '/#/courses/' + this.course.id});
 			} else {

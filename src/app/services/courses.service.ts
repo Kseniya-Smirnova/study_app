@@ -3,13 +3,17 @@ import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import { Http, Headers, Response, RequestOptions, URLSearchParams } from '@angular/http';
+import { Store } from '@ngrx/store';
 
+import { GET_COURSES } from '../core/reducers/courses.reducer';
 import { CourseInstance } from '../core/entities/courseInstance';
+
+import { GET_COURSE } from '../core/reducers/course.reducer';
 
 @Injectable()
 export class CoursesService {
 	public courses: BehaviorSubject<CourseInstance[]>;
-	constructor(private http: Http) {
+	constructor(private http: Http, private store: Store<any>) {
 		this.courses = new BehaviorSubject<CourseInstance[]>([]);
 	}
 
@@ -22,9 +26,11 @@ export class CoursesService {
 		this.http.get('http://localhost:3004/courses', {
 			search: params
 		}).map((data) => {
-			console.log('updated', data.json());
-			return data.json();
-		}).subscribe((data) => this.courses.next(data));
+			this.store.dispatch({
+				type: GET_COURSES,
+				payload: data.json()
+			});
+		}).subscribe((data) => console.log(data));
 	}
 
 	public createCourse(course): void {
@@ -41,7 +47,10 @@ export class CoursesService {
 		this.http.get('http://localhost:3004/course', {
 			search: params
 		}).map((data) => {
-			console.log('updated', data.json());
+			this.store.dispatch({
+				type: GET_COURSE,
+				payload: data.json()
+			});
 			return data.json();
 		}).subscribe((data) => this.courses.next(data));
 	}

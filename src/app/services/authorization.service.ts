@@ -13,7 +13,12 @@ import { LOGIN, LOGOUT } from '../core/reducers/authorization.reducer';
 export class AuthorizationService {
 	public isLogged: BehaviorSubject<boolean>;
 
-	constructor(private http: Http, private httpService: HttpService, private store: Store<any>, private router: Router) {
+	constructor(
+		private http: Http,
+		private httpService: HttpService,
+		private store: Store<any>,
+		private router: Router
+	) {
 		this.isLogged = <BehaviorSubject<boolean>> new BehaviorSubject(false);
 	}
 
@@ -38,22 +43,19 @@ export class AuthorizationService {
 					// между ними надо как то переключаться?
 				}
 
-				this.store.dispatch({
-					type: LOGIN
+				this.getUserInfo(tokenInfo.token).subscribe((data) => {
+					let userInfo = data.json().name.first + ' ' + data.json().name.last;
+
+					this.store.dispatch({
+						type: LOGIN,
+						payload: userInfo
+					});
 				});
 				this.router.navigateByUrl('/courses');
 
 				// console.log(this.store);
 				// что правильно вернуть отсюда, если например запрос был саксес. но респонс не вернул токена
 		});
-	}
-
-	public getUserName(user, options) {
-		return this.http.post('http://localhost:3004/auth/userinfo', user, options)
-			.map((response: Response) => {
-				let userInfo = response.json().name;
-				return userInfo;
-			});
 	}
 
 	public getUserInfo(token) {
@@ -64,7 +66,7 @@ export class AuthorizationService {
 			let headers = new Headers({Authorization: token});
 			let options = new RequestOptions({ headers: headers });
 
-			this.getUserName(user, options);
+			return this.http.post('http://localhost:3004/auth/userinfo', user, options);
 		}
 	}
 
@@ -74,5 +76,6 @@ export class AuthorizationService {
 			payload: false
 		});
 		localStorage.removeItem('currentUser');
+		this.router.navigateByUrl('/login');
 	}
 }
