@@ -4,6 +4,7 @@ import {
 
 import { ISubscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
+import { Store } from '@ngrx/store';
 
 import { WindowRefService } from '../../services/window.service';
 import { CourseInstance } from '../../core/entities/courseInstance';
@@ -24,8 +25,8 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 	private count: string = '5';
 	private start: string = '0';
 	private deleteSubscription: ISubscription;
-	private courses: CourseInstance[];
-	private innerCourses: CourseInstance[];
+	private courses: CourseInstance[] = [];
+	private innerCourses: CourseInstance[] = [];
 	private window: Window;
 	private searchValue: string = '';
 
@@ -34,21 +35,24 @@ export class CoursesComponent implements OnInit, OnChanges, OnDestroy {
 		window: WindowRefService,
 		private loaderBlockService: LoaderBlockService,
 		private cd: ChangeDetectorRef,
-		private	breadcrumbService: BreadcrumbService) {
+		private	breadcrumbService: BreadcrumbService,
+		private store: Store<any>) {
 		this.window = window.nativeWindow;
 	}
 
 	public ngOnInit(): void {
 		this.getCourses(this.start, this.count, this.searchValue);
-		this.subscribtion = this.courseServices.courses.subscribe((courses: CourseInstance[]) => {
-			_.filter(courses, (o) => {
-				let currentDate = new Date();
-				currentDate.setDate(currentDate.getDate() - 14);
-				return (currentDate < new Date(o.date));
-			});
-			this.courses = courses;
-			this.innerCourses = courses;
-			this.cd.markForCheck();
+		this.subscribtion = this.store.select('courses').subscribe((courses: CourseInstance[]) => {
+			if (courses) {
+				_.filter(courses, (o) => {
+					let currentDate = new Date();
+					currentDate.setDate(currentDate.getDate() - 14);
+					return (currentDate < new Date(o.date));
+				});
+				this.courses = courses;
+				this.innerCourses = courses;
+				this.cd.markForCheck();
+			}
 		});
 
 		this.breadcrumbService.initBreadcrumbs({name: 'Courses', path: '/#/courses/'});

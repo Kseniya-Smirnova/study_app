@@ -10,7 +10,7 @@
 					<breadcrumbs></breadcrumbs>
 				</div>
 			</div>
-			<div class="col-2" *ngIf="isLogged" (click)="logout()">You logged in <a  routerLink="/login" class="btn btn-danger">Log out</a></div>
+			<div class="col-2" *ngIf="isLogged">You logged in <button (click)="logout()" class="btn btn-danger">Log out</button></div>
 			<div class="col-2" *ngIf="!isLogged"><a class="btn btn-danger" routerLink="/login">Log in</a></div>
 		</div>
 	</div>
