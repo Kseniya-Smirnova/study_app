@@ -28,9 +28,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private store: Store<any>
 	) {
-		this.store.select('authorization').subscribe((data) => {
+		this.store.select('authorization').subscribe((data: any) => {
+			console.log(data);
 			if (data) {
-				this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
+				// this.router.navigate(['/courses']).then(() => this.loaderBlockService.hide());
 			}
 		});
 		this.window = window.nativeWindow;

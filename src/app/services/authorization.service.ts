@@ -38,9 +38,6 @@ export class AuthorizationService {
 				let tokenInfo = response.json();
 				if (tokenInfo && tokenInfo.token) {
 					localStorage.setItem('currentUser', tokenInfo.token);
-					// this.getUserInfo(tokenInfo.token);
-					// тут я запуталась - как между собой связать функции login и getUserInfp !!!!switchMap????
-					// между ними надо как то переключаться?
 				}
 
 				this.getUserInfo(tokenInfo.token).subscribe((data) => {
@@ -50,8 +47,9 @@ export class AuthorizationService {
 						type: LOGIN,
 						payload: userInfo
 					});
+
+					this.router.navigateByUrl('/courses');
 				});
-				this.router.navigateByUrl('/courses');
 
 				// console.log(this.store);
 				// что правильно вернуть отсюда, если например запрос был саксес. но респонс не вернул токена
