@@ -19,6 +19,6 @@ export class DurationLengthPipe implements PipeTransform {
 			exp = value + 'min';
 		}
 
-		return exp;
+		return exp.trim();
 	}
 }
